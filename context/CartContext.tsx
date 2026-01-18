@@ -29,13 +29,26 @@ export const useCart = () => {
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
-    const savedItems = localStorage.getItem('cartItems');
-    return savedItems ? JSON.parse(savedItems) : [];
+    if (typeof window === 'undefined') {
+      return [];
+    }
+    try {
+      const savedItems = window.localStorage.getItem('cartItems');
+      return savedItems ? JSON.parse(savedItems) : [];
+    } catch {
+      return [];
+    }
   });
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(items));
+    if (typeof window === 'undefined') {
+      return;
+    }
+    try {
+      window.localStorage.setItem('cartItems', JSON.stringify(items));
+    } catch {
+    }
   }, [items]);
 
   const addToCart = (product: Product) => {

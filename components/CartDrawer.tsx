@@ -1,9 +1,11 @@
 import React from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const CartDrawer: React.FC = () => {
   const { items, isOpen, toggleCart, removeFromCart, updateQuantity, totalPrice } = useCart();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
@@ -111,12 +113,16 @@ const CartDrawer: React.FC = () => {
                   Taxes et frais de livraison calculés à l'étape suivante.
                 </p>
                 <div className="mt-6">
-                  <a
-                    href="#"
-                    className="flex justify-center items-center px-6 py-3 border border-transparent rounded-sm shadow-sm text-base font-medium text-white bg-burgundy-900 hover:bg-burgundy-800"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      toggleCart();
+                      navigate('/delivery');
+                    }}
+                    className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-sm shadow-sm text-base font-medium text-white bg-burgundy-900 hover:bg-burgundy-800"
                   >
                     Commander
-                  </a>
+                  </button>
                 </div>
               </div>
             )}

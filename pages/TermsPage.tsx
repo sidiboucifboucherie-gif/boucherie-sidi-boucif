@@ -39,7 +39,7 @@ const TermsPage: React.FC = () => {
           <section>
             <h2 className="text-xl font-bold text-burgundy-800 mb-3">Article 4 : Paiement</h2>
             <p>
-              Le fait de valider votre commande implique pour vous l'obligation de payer le prix indiqué. Le règlement s'effectue par carte bancaire via notre système sécurisé [NOM DU SYSTÈME, ex: Stripe/PayPal] ou au comptoir lors du retrait (si option activée).
+              Le fait de valider votre commande implique pour vous l'obligation de payer le prix indiqué. Le règlement s'effectue par carte bancaire via un système de paiement sécurisé ou au comptoir lors du retrait (si cette option est proposée en boutique).
             </p>
           </section>
 
@@ -54,7 +54,7 @@ const TermsPage: React.FC = () => {
 
               <div>
                 <h3 className="font-bold text-burgundy-700">Livraison :</h3>
-                <p>[SI VOUS LIVREZ, PRÉCISEZ ICI : "Nous livrons dans un rayon de X km..." OU "Livraison via Chronofresh..."].</p>
+                <p>Les modalités de livraison (zone desservie, délais et frais éventuels) sont précisées sur la page Livraison et peuvent être confirmées directement en boutique ou par téléphone.</p>
               </div>
 
               <div>

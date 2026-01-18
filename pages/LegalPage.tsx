@@ -14,7 +14,7 @@ const LegalPage: React.FC = () => {
           <section>
             <h2 className="text-xl font-bold text-burgundy-800 mb-3">Éditeur du site</h2>
             <p className="mb-2">
-              Le site internet <strong>www.boucheriesidiboucif.fr</strong> est édité par la société <strong>Boucherie Sidi Boucif</strong>, [Forme juridique : ex. SARL, SASU, ou Entrepreneur Individuel], au capital de [MONTANT] euros.
+              Le site internet <strong>www.boucheriesidiboucif.fr</strong> est édité par <strong>Boucherie Sidi Boucif</strong>, entreprise immatriculée en France métropolitaine.
             </p>
           </section>
 
@@ -25,8 +25,7 @@ const LegalPage: React.FC = () => {
 
           <section>
             <h2 className="text-xl font-bold text-burgundy-800 mb-3">Immatriculation</h2>
-            <p>Inscrite au RCS de [VILLE DU GREFFE] sous le numéro [VOTRE NUMÉRO SIRET]</p>
-            <p>Numéro de TVA intracommunautaire : [VOTRE NUMÉRO DE TVA]</p>
+            <p>Inscrite au Registre du Commerce et des Sociétés. Les références complètes (RCS, SIRET, TVA) sont disponibles sur demande en boutique ou par email.</p>
           </section>
 
           <section>
@@ -37,16 +36,15 @@ const LegalPage: React.FC = () => {
 
           <section>
             <h2 className="text-xl font-bold text-burgundy-800 mb-3">Directeur de la publication</h2>
-            <p>[VOTRE NOM ET PRÉNOM]</p>
+            <p>Le responsable de la publication est le gérant de la Boucherie Sidi Boucif.</p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-burgundy-800 mb-3">Hébergeur du site</h2>
             <p>Le site est hébergé par :</p>
             <ul className="list-disc ml-5 mt-2 space-y-1">
-              <li>Nom de l'hébergeur : [Ex: OVH, IONOS, SHOPIFY, HOSTINGER...]</li>
-              <li>Adresse : [ADRESSE DE L'HÉBERGEUR]</li>
-              <li>Téléphone : [TÉLÉPHONE DE L'HÉBERGEUR]</li>
+              <li>Nom de l'hébergeur : À préciser par le propriétaire du site.</li>
+              <li>Adresse et coordonnées : À préciser selon l'hébergeur choisi.</li>
             </ul>
           </section>
 
