@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, MapPin, ShoppingBag } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Phone, MapPin, ShoppingBag, User as UserIcon, LogOut } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { toggleCart, totalItems } = useCart();
+  const { user, signOut, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +67,7 @@ const Navigation: React.FC = () => {
             {/* Cart Button */}
             <button 
               onClick={toggleCart}
-              className="bg-gold-500 hover:bg-gold-600 text-burgundy-900 px-4 py-2 rounded-sm font-bold text-sm transition-colors flex items-center shadow-md"
+              className="bg-gold-500 hover:bg-gold-600 text-burgundy-900 px-4 py-2 rounded-sm font-bold text-sm transition-colors flex items-center shadow-md mr-4"
             >
               <ShoppingBag size={18} className="mr-2" />
               <span>Panier</span>
@@ -72,6 +75,44 @@ const Navigation: React.FC = () => {
                 <span className="ml-2 bg-burgundy-900 text-gold-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">{totalItems}</span>
               )}
             </button>
+
+            {/* Auth Buttons */}
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-white text-sm hidden lg:block">
+                  Bonjour, {user.user_metadata?.full_name || 'Client'}
+                </span>
+                <Link 
+                  to="/dashboard" 
+                  className="text-white hover:text-gold-400 text-sm font-medium transition-colors"
+                >
+                  Mon Espace Client
+                </Link>
+                {isAdmin && (
+                  <Link 
+                    to="/admin" 
+                    className="bg-burgundy-800 hover:bg-burgundy-700 text-gold-500 px-3 py-1 rounded-sm text-sm font-medium transition-colors"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button 
+                  onClick={() => signOut()}
+                  className="text-white hover:text-gold-400 transition-colors"
+                  title="Se déconnecter"
+                >
+                  <LogOut size={20} />
+                </button>
+              </div>
+            ) : (
+              <Link 
+                to="/login"
+                className="text-white hover:text-gold-400 transition-colors flex items-center font-medium text-sm"
+              >
+                <UserIcon size={18} className="mr-2" />
+                Connexion
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -99,6 +140,48 @@ const Navigation: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+            
+            {/* Mobile Auth Link */}
+            {user && (
+              <Link
+                to="/dashboard"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full text-left px-3 py-3 text-base font-medium rounded-md text-white hover:bg-burgundy-700 mb-2"
+              >
+                Mon Espace Client
+              </Link>
+            )}
+            {user && isAdmin && (
+              <Link
+                to="/admin"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full text-left px-3 py-3 text-base font-medium rounded-md text-gold-500 bg-burgundy-900 hover:bg-burgundy-700 mb-2"
+              >
+                Administration
+              </Link>
+            )}
+            {user ? (
+              <button
+                onClick={() => {
+                  signOut();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-3 text-base font-medium rounded-md text-white hover:bg-burgundy-700 flex items-center"
+              >
+                <LogOut size={18} className="mr-2" />
+                Se déconnecter
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full text-left px-3 py-3 text-base font-medium rounded-md text-white hover:bg-burgundy-700 flex items-center"
+              >
+                <UserIcon size={18} className="mr-2" />
+                Connexion
+              </Link>
+            )}
+
             <div className="mt-4 pt-4 border-t border-burgundy-700 text-gold-400 flex flex-col space-y-2 px-3">
                <div className="flex items-center"><MapPin size={16} className="mr-2"/> 5 Avenue Gambetta, Béziers</div>
                <div className="flex items-center"><Phone size={16} className="mr-2"/> Ouvert Dimanche</div>

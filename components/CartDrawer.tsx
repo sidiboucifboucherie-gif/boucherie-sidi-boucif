@@ -117,7 +117,7 @@ const CartDrawer: React.FC = () => {
                     type="button"
                     onClick={() => {
                       toggleCart();
-                      navigate('/delivery');
+                      navigate('/checkout');
                     }}
                     className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-sm shadow-sm text-base font-medium text-white bg-burgundy-900 hover:bg-burgundy-800"
                   >
