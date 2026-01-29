@@ -72,10 +72,26 @@ const AdminCategories: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Generate slug if not provided
+    let slug = formData.slug.trim();
+    if (!slug) {
+      slug = formData.name.toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
+    
+    // Validate slug is not empty after generation
+    if (!slug) {
+      alert('Erreur: Impossible de générer un slug valide à partir du nom. Veuillez entrer un slug manuellement.');
+      return;
+    }
+    
     const categoryData = {
-      name: formData.name,
-      slug: formData.slug || formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
-      description: formData.description || null
+      name: formData.name.trim(),
+      slug: slug,
+      description: formData.description.trim() || null
     };
 
     if (editingCategory) {
@@ -85,8 +101,16 @@ const AdminCategories: React.FC = () => {
         .eq('id', editingCategory.id);
       
       if (error) {
-        alert('Erreur lors de la mise à jour');
-        console.error(error);
+        console.error('Error updating category:', error);
+        let errorMessage = 'Erreur lors de la mise à jour';
+        if (error.message.includes('unique constraint') || error.message.includes('duplicate key')) {
+          errorMessage = 'Erreur: Un slug avec ce nom existe déjà. Veuillez utiliser un slug différent.';
+        } else if (error.message.includes('permission denied') || error.message.includes('policy')) {
+          errorMessage = 'Erreur: Vous n\'avez pas les permissions nécessaires. Vérifiez que votre compte a le rôle administrateur.';
+        } else {
+          errorMessage = `Erreur lors de la mise à jour: ${error.message}`;
+        }
+        alert(errorMessage);
       } else {
         setIsModalOpen(false);
         fetchCategories();
@@ -97,8 +121,16 @@ const AdminCategories: React.FC = () => {
         .insert([categoryData]);
       
       if (error) {
-        alert('Erreur lors de la création');
-        console.error(error);
+        console.error('Error creating category:', error);
+        let errorMessage = 'Erreur lors de la création';
+        if (error.message.includes('unique constraint') || error.message.includes('duplicate key')) {
+          errorMessage = 'Erreur: Un slug avec ce nom existe déjà. Veuillez utiliser un slug différent.';
+        } else if (error.message.includes('permission denied') || error.message.includes('policy')) {
+          errorMessage = 'Erreur: Vous n\'avez pas les permissions nécessaires. Vérifiez que votre compte a le rôle administrateur.';
+        } else {
+          errorMessage = `Erreur lors de la création: ${error.message}`;
+        }
+        alert(errorMessage);
       } else {
         setIsModalOpen(false);
         fetchCategories();

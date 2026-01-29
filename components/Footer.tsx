@@ -40,9 +40,9 @@ const Footer: React.FC = () => {
                 <MapPin className="mr-3 text-gold-500 flex-shrink-0" size={18} />
                 <span>5 Avenue Gambetta,<br/>34500 Béziers</span>
               </a>
-              <a href="tel:+33467000000" className="flex items-center text-gray-400 hover:text-white transition-colors text-sm">
+              <a href="tel:0467282788" className="flex items-center text-gray-400 hover:text-white transition-colors text-sm">
                 <Phone className="mr-3 text-gold-500 flex-shrink-0" size={18} />
-                <span>04 67 XX XX XX</span>
+                <span>04 67 28 27 88</span>
               </a>
               <a href="mailto:contact@sidiboucif.fr" className="flex items-center text-gray-400 hover:text-white transition-colors text-sm">
                 <Mail className="mr-3 text-gold-500 flex-shrink-0" size={18} />

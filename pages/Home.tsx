@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Clock, ChefHat, Truck, MapPin, ShoppingCart } from 'lucide-react';
 import Hero from '../components/Hero';
-import { PRODUCTS, RECIPES } from '../constants';
+import { RECIPES } from '../constants';
 import { useCart } from '../context/CartContext';
+import { supabase } from '../lib/supabaseClient';
+import { Product } from '../types';
 
 const Home: React.FC = () => {
-  const featuredProducts = PRODUCTS.slice(0, 3);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const featuredRecipes = RECIPES.slice(0, 2);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select(`
+            *,
+            category:categories(slug)
+          `)
+          .eq('is_active', true)
+          .limit(3)
+          .order('id'); // Or order by popularity/created_at if available
+
+        if (error) {
+          console.error('Error fetching featured products:', error);
+          return;
+        }
+
+        if (data) {
+          const formattedProducts: Product[] = data.map(p => ({
+            id: p.id.toString(),
+            name: p.name,
+            category: p.category?.slug || 'uncategorized',
+            description: p.description || '',
+            badges: p.badges || [],
+            imageUrl: p.image_url || '/images/placeholder-meat.png',
+            price: (p.price_cents / 100).toFixed(2).replace('.', ',') + '€'
+          }));
+          setFeaturedProducts(formattedProducts);
+        }
+      } catch (err) {
+        console.error('Unexpected error:', err);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
 
   return (
     <div>

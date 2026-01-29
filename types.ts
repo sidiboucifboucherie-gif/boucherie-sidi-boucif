@@ -3,7 +3,7 @@ import { LucideIcon } from 'lucide-react';
 export interface Product {
   id: string;
   name: string;
-  category: 'beef' | 'poultry' | 'lamb' | 'triperie';
+  category: string;
   description: string;
   badges: string[];
   imageUrl: string;

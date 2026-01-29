@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Product } from '../types';
 import { useAuth } from './AuthContext';
 import { supabase } from '../lib/supabaseClient';
-import { PRODUCTS } from '../constants';
 
 export interface CartItem extends Product {
   quantity: number;

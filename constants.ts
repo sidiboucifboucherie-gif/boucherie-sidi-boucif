@@ -10,63 +10,6 @@ export const OPENING_HOURS: OperatingHours[] = [
   { day: 'Dimanche', open: '08:00–12:00, 16:00–20:00', isClosed: false, isSunday: true },
 ];
 
-export const PRODUCTS: Product[] = [
-  {
-    id: '1',
-    name: 'Côte de Bœuf VBF',
-    category: 'beef',
-    description: 'Une pièce d’exception, persillée et tendre. Idéale pour les grillades.',
-    badges: ['VBF', 'Halal', 'Maturation'],
-    imageUrl: '/images/cote-de-boeuf.png',
-    price: '29.90€'
-  },
-  {
-    id: '2',
-    name: 'Poulet Fermier Label Rouge',
-    category: 'poultry',
-    description: 'Élevé en plein air, chair ferme et goût authentique.',
-    badges: ['Label Rouge', 'Halal', 'Fermier'],
-    imageUrl: '/images/poulet-fermier.png',
-    price: '12.50€'
-  },
-  {
-    id: '3',
-    name: 'Foie de Veau',
-    category: 'triperie',
-    description: 'Coupe artisanale fine, riche en fer et en saveur.',
-    badges: ['Veau Français', 'Halal', 'Artisan'],
-    imageUrl: '/images/foie-de-veau.png',
-    price: '18.90€'
-  },
-  {
-    id: '4',
-    name: 'Gigot d\'Agneau',
-    category: 'lamb',
-    description: 'Tendre et savoureux, parfait pour vos rôtis du dimanche.',
-    badges: ['Origine France', 'Halal'],
-    imageUrl: '/images/gigot-agneau.png',
-    price: '24.90€'
-  },
-  {
-    id: '5',
-    name: 'Saucisses Maison',
-    category: 'beef',
-    description: 'Préparées sur place avec des épices sélectionnées.',
-    badges: ['Fait Maison', 'Halal', 'Sans conservateur'],
-    imageUrl: '/images/Saucisses Maison.png',
-    price: '14.90€'
-  },
-  {
-    id: '6',
-    name: 'Cœur de Bœuf',
-    category: 'triperie',
-    description: 'Une pièce technique préparée par votre artisan.',
-    badges: ['VBF', 'Halal', 'Triperie'],
-    imageUrl: '/images/coeur-de-boeuf.png',
-    price: '9.90€'
-  }
-];
-
 export const VISIT_DATA = [
   { time: '08h', visitors: 20 },
   { time: '09h', visitors: 45 },

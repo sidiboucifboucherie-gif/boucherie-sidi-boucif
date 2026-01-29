@@ -10,6 +10,7 @@ interface Product {
   price_cents: number;
   image_url: string | null;
   is_active: boolean;
+  badges: string[] | null;
 }
 
 interface Category {
@@ -31,7 +32,8 @@ const AdminProducts: React.FC = () => {
     description: '',
     price: '',
     image_url: '',
-    category_id: ''
+    category_id: '',
+    badges: ''
   });
 
   useEffect(() => {
@@ -110,7 +112,8 @@ const AdminProducts: React.FC = () => {
       description: product.description || '',
       price: (product.price_cents / 100).toFixed(2),
       image_url: product.image_url || '',
-      category_id: product.category_id?.toString() || ''
+      category_id: product.category_id?.toString() || '',
+      badges: product.badges ? product.badges.join(', ') : ''
     });
     setIsModalOpen(true);
   };
@@ -122,7 +125,8 @@ const AdminProducts: React.FC = () => {
       description: '',
       price: '',
       image_url: '',
-      category_id: ''
+      category_id: '',
+      badges: ''
     });
     setIsModalOpen(true);
   };
@@ -131,13 +135,31 @@ const AdminProducts: React.FC = () => {
     e.preventDefault();
     const priceCents = Math.round(parseFloat(formData.price) * 100);
     
+    // Validate and parse category_id
+    let categoryId: number | null = null;
+    if (formData.category_id && formData.category_id.trim() !== '') {
+      const parsedId = parseInt(formData.category_id);
+      if (isNaN(parsedId)) {
+        alert('Erreur: ID de catégorie invalide');
+        return;
+      }
+      // Verify that the category exists in the database
+      const categoryExists = categories.some(c => c.id === parsedId);
+      if (!categoryExists) {
+        alert('Erreur: La catégorie sélectionnée n\'existe pas. Veuillez sélectionner une catégorie valide.');
+        return;
+      }
+      categoryId = parsedId;
+    }
+    
     const productData = {
       name: formData.name,
       description: formData.description || null,
       price_cents: priceCents,
       image_url: formData.image_url || null,
-      category_id: formData.category_id ? parseInt(formData.category_id) : null,
-      is_active: true
+      category_id: categoryId,
+      is_active: true,
+      badges: formData.badges ? formData.badges.split(',').map(b => b.trim()).filter(b => b) : []
     };
 
     if (editingProduct) {
@@ -146,13 +168,31 @@ const AdminProducts: React.FC = () => {
         .update(productData)
         .eq('id', editingProduct.id);
       
-      if (error) alert('Erreur lors de la mise à jour');
+      if (error) {
+        console.error('Error updating product:', error);
+        if (error.message.includes('permission denied') || error.message.includes('policy')) {
+          alert('Erreur: Vous n\'avez pas les permissions nécessaires. Vérifiez que votre compte a le rôle administrateur.');
+        } else {
+          alert(`Erreur lors de la mise à jour: ${error.message}`);
+        }
+        return;
+      }
     } else {
       const { error } = await supabase
         .from('products')
         .insert([productData]);
       
-      if (error) alert('Erreur lors de la création');
+      if (error) {
+        console.error('Error creating product:', error);
+        if (error.message.includes('foreign key constraint')) {
+          alert('Erreur: La catégorie sélectionnée n\'existe pas dans la base de données. Veuillez d\'abord créer la catégorie ou sélectionner une catégorie existante.');
+        } else if (error.message.includes('permission denied') || error.message.includes('policy')) {
+          alert('Erreur: Vous n\'avez pas les permissions nécessaires. Vérifiez que votre compte a le rôle administrateur.');
+        } else {
+          alert(`Erreur lors de la création: ${error.message}`);
+        }
+        return;
+      }
     }
 
     setIsModalOpen(false);
@@ -254,6 +294,17 @@ const AdminProducts: React.FC = () => {
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-burgundy-500 focus:border-burgundy-500 sm:text-sm"
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Badges (séparés par des virgules)</label>
+                      <input 
+                        type="text" 
+                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-burgundy-500 focus:border-burgundy-500 sm:text-sm"
+                        placeholder="Ex: Halal, Bio, Promo"
+                        value={formData.badges}
+                        onChange={(e) => setFormData({...formData, badges: e.target.value})}
                       />
                     </div>
 

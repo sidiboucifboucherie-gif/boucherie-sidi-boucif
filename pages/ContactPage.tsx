@@ -6,6 +6,7 @@ const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   });
@@ -28,6 +29,7 @@ const ContactPage: React.FC = () => {
         .insert([{
           name: formData.name,
           email: formData.email,
+          phone: formData.phone,
           subject: formData.subject,
           message: formData.message,
           read: false
@@ -36,7 +38,7 @@ const ContactPage: React.FC = () => {
       if (submitError) throw submitError;
 
       setSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch (err: any) {
       console.error('Error sending message:', err);
       // Show error only if it's a critical error, otherwise show success for better UX
@@ -92,7 +94,7 @@ const ContactPage: React.FC = () => {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-gray-900">Téléphone</h3>
-                  <p className="mt-1 text-gray-600">+33 4 67 00 00 00</p>
+                  <p className="mt-1 text-gray-600">04 67 28 27 88</p>
                   <p className="text-sm text-gray-500 mt-1">Du mardi au dimanche, 8h - 19h</p>
                 </div>
               </div>
@@ -168,6 +170,18 @@ const ContactPage: React.FC = () => {
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-burgundy-500 focus:border-burgundy-500"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Téléphone (optionnel)</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-burgundy-500 focus:border-burgundy-500"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
                   />
                 </div>
 

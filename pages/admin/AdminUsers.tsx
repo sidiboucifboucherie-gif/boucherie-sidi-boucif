@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { User, Shield, ShieldAlert } from 'lucide-react';
+import { User, Shield, ShieldAlert, Trash2 } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -48,6 +48,25 @@ const AdminUsers: React.FC = () => {
     }
   };
 
+  const handleDeleteUser = async (userId: string) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.')) return;
+
+    // Note: Deleting from 'profiles' will cascade delete if configured, 
+    // but usually we can't delete from auth.users via client SDK for security.
+    // However, we can delete the profile data which effectively removes them from the app logic.
+    const { error } = await supabase
+      .from('profiles')
+      .delete()
+      .eq('id', userId);
+
+    if (error) {
+      alert('Erreur lors de la suppression de l\'utilisateur');
+      console.error(error);
+    } else {
+      fetchUsers();
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-serif font-bold text-gray-800 mb-6">Gestion des Utilisateurs</h1>
@@ -57,6 +76,7 @@ const AdminUsers: React.FC = () => {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Utilisateur</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Téléphone</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôle</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date d'inscription</th>
@@ -65,9 +85,9 @@ const AdminUsers: React.FC = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {loading ? (
-              <tr><td colSpan={5} className="px-6 py-4 text-center">Chargement...</td></tr>
+              <tr><td colSpan={6} className="px-6 py-4 text-center">Chargement...</td></tr>
             ) : users.length === 0 ? (
-              <tr><td colSpan={5} className="px-6 py-4 text-center">Aucun utilisateur trouvé.</td></tr>
+              <tr><td colSpan={6} className="px-6 py-4 text-center">Aucun utilisateur trouvé.</td></tr>
             ) : (
               users.map((user) => (
                 <tr key={user.id}>
@@ -102,13 +122,20 @@ const AdminUsers: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(user.created_at).toLocaleDateString('fr-FR')}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                     <button 
                       onClick={() => handleToggleAdmin(user.id, user.role)}
                       className="text-gray-400 hover:text-burgundy-900"
                       title={user.role === 'admin' ? "Rétrograder en utilisateur" : "Promouvoir admin"}
                     >
                       {user.role === 'admin' ? <ShieldAlert size={18} /> : <Shield size={18} />}
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="text-gray-400 hover:text-red-600"
+                      title="Supprimer l'utilisateur"
+                    >
+                      <Trash2 size={18} />
                     </button>
                   </td>
                 </tr>

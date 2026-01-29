@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Mail, Phone, Calendar } from 'lucide-react';
+import { Mail, Phone, Calendar, Trash2 } from 'lucide-react';
 
 interface ContactMessage {
   id: number;
@@ -32,6 +32,24 @@ const AdminMessages: React.FC = () => {
     setLoading(false);
   };
 
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) return;
+
+    const { error, count } = await supabase
+      .from('contact_messages')
+      .delete({ count: 'exact' })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error deleting message:', error);
+      alert('Erreur technique lors de la suppression.');
+    } else if (count === 0) {
+      alert("Suppression impossible : Vous n'avez probablement pas les droits d'administrateur ou le message n'existe plus.");
+    } else {
+      setMessages(messages.filter(msg => msg.id !== id));
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-serif font-bold text-gray-800 mb-6">Messages Reçus</h1>
@@ -57,9 +75,18 @@ const AdminMessages: React.FC = () => {
                     {msg.phone && <span className="flex items-center"><Phone size={14} className="mr-1" /> {msg.phone}</span>}
                   </div>
                 </div>
-                <div className="flex items-center text-xs text-gray-400 mt-2 md:mt-0">
-                  <Calendar size={14} className="mr-1" />
-                  {new Date(msg.created_at).toLocaleString('fr-FR')}
+                <div className="flex items-center gap-4 mt-2 md:mt-0">
+                  <div className="flex items-center text-xs text-gray-400">
+                    <Calendar size={14} className="mr-1" />
+                    {new Date(msg.created_at).toLocaleString('fr-FR')}
+                  </div>
+                  <button 
+                    onClick={() => handleDelete(msg.id)}
+                    className="text-red-400 hover:text-red-600 transition-colors p-1"
+                    title="Supprimer le message"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
               </div>
               <div className="bg-gray-50 p-4 rounded-md text-gray-700 whitespace-pre-wrap text-sm">

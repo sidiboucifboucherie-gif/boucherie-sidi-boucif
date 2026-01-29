@@ -26,6 +26,7 @@ const Navigation: React.FC = () => {
     { label: 'À Propos', path: '/about' },
     { label: 'Livraison', path: '/delivery' },
     { label: 'Recettes', path: '/recipes' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path: string) => {
