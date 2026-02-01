@@ -24,6 +24,7 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminCategories from './pages/admin/AdminCategories';
 import CheckoutPage from './pages/CheckoutPage';
 import ContactPage from './pages/ContactPage';
+import PaymentResultPage from './pages/PaymentResultPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import CartDrawer from './components/CartDrawer';
@@ -79,6 +80,7 @@ const App: React.FC = () => {
             <Route path="/recipes/:id" element={<MainLayout><RecipeDetailPage /></MainLayout>} />
             <Route path="/contact" element={<MainLayout><ContactPage /></MainLayout>} />
             <Route path="/checkout" element={<MainLayout><CheckoutPage /></MainLayout>} />
+            <Route path="/payment/:status" element={<MainLayout><PaymentResultPage /></MainLayout>} />
             <Route path="/legal" element={<MainLayout><LegalPage /></MainLayout>} />
             <Route path="/privacy" element={<MainLayout><PrivacyPage /></MainLayout>} />
             <Route path="/terms" element={<MainLayout><TermsPage /></MainLayout>} />

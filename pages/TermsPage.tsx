@@ -16,6 +16,9 @@ const TermsPage: React.FC = () => {
             <p>
               Les présentes conditions régissent les ventes par la société Boucherie Sidi Boucif de produits de boucherie, charcuterie et gastronomie.
             </p>
+            <p className="mt-2 text-sm italic">
+              Note : Nos viandes sont d'origine Française et Espagnole.
+            </p>
           </section>
 
           <section>

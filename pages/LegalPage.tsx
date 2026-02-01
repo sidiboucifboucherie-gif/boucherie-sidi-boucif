@@ -29,8 +29,15 @@ const LegalPage: React.FC = () => {
           </section>
 
           <section>
+            <h2 className="text-xl font-bold text-burgundy-800 mb-3">Origine des Viandes</h2>
+            <p>
+              Nos viandes sont sélectionnées avec rigueur. Nous proposons des viandes d'origine Française (Label Rouge, VBF) et nous importons également une partie de notre viande d'Espagne, toujours dans le respect strict des normes de qualité et du rite Halal.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-xl font-bold text-burgundy-800 mb-3">Contact</h2>
-            <p>Téléphone : 04 67 XX XX XX</p>
+            <p>Téléphone : 04 67 28 27 88</p>
             <p>Email : contact@sidiboucif.fr</p>
           </section>
 

@@ -29,6 +29,10 @@ const Hero: React.FC = () => {
             <span className="text-gold-500 italic">Halal & Française</span>
           </h1>
           
+          <p className="text-sm text-gray-400 italic mb-6 -mt-4">
+            (on importe aussi notre viande de l'Espagne)
+          </p>
+          
           <p className="text-lg md:text-xl text-gray-200 mb-8 font-light max-w-lg leading-relaxed">
             Une alliance unique entre la tradition bouchère artisanale et les meilleurs labels de la gastronomie française (Label Rouge, VBF).
           </p>

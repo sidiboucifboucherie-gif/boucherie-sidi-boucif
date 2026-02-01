@@ -185,13 +185,13 @@ INSERT INTO public.categories (name, slug, description) VALUES
 ('Charcuterie', 'charcuterie', 'Charcuterie traditionnelle')
 ON CONFLICT (slug) DO NOTHING;
 
--- 5. MAKE EVERYONE ADMIN (For Development)
+-- 5. MAKE EVERYONE ADMIN (For Development - COMMENTED OUT FOR SECURITY)
 -- This ensures you can immediately use the admin panel
-INSERT INTO public.profiles (id, email, role)
-SELECT id, email, 'admin'
-FROM auth.users
-ON CONFLICT (id) DO UPDATE
-SET role = 'admin';
+-- INSERT INTO public.profiles (id, email, role)
+-- SELECT id, email, 'admin'
+-- FROM auth.users
+-- ON CONFLICT (id) DO UPDATE
+-- SET role = 'admin';
 
 -- Fix permissions for sequences
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO postgres, anon, authenticated, service_role;
