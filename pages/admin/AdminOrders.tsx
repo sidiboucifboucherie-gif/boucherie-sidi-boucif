@@ -181,9 +181,17 @@ const AdminOrders: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button 
                       onClick={() => handleViewOrder(order)}
-                      className="text-burgundy-900 hover:text-burgundy-700"
+                      className="text-burgundy-900 hover:text-burgundy-700 mr-3"
+                      title="Voir détails"
                     >
                       <Eye size={18} />
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteOrder(order.id)}
+                      className="text-red-600 hover:text-red-900"
+                      title="Supprimer"
+                    >
+                      <Trash2 size={18} />
                     </button>
                   </td>
                 </tr>

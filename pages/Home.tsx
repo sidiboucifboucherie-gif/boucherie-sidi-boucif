@@ -67,7 +67,12 @@ const Home: React.FC = () => {
             {featuredProducts.map((product) => (
               <div key={product.id} className="bg-white rounded-sm shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
                 <div className="relative h-64 overflow-hidden">
-                  <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+                  <img 
+                    src={product.imageUrl} 
+                    alt={product.name} 
+                    loading="lazy"
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+                  />
                   <div className="absolute top-0 right-0 p-4">
                     {product.badges.slice(0, 1).map((badge, idx) => (
                       <span key={idx} className="bg-gold-500 text-burgundy-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">

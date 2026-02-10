@@ -120,6 +120,7 @@ const Products: React.FC = () => {
                   <img 
                     src={product.imageUrl} 
                     alt={product.name} 
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute top-4 left-4 flex flex-wrap gap-2">
