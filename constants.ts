@@ -1,7 +1,7 @@
 import { Product, OperatingHours, Recipe } from './types';
 
 export const OPENING_HOURS: OperatingHours[] = [
-  { day: 'Lundi', open: '', isClosed: true },
+  { day: 'Lundi', open: '08:00–12:00, 16:00–20:00', isClosed: false },
   { day: 'Mardi', open: '08:00–12:00, 16:00–20:00', isClosed: false },
   { day: 'Mercredi', open: '08:00–12:00, 16:00–20:00', isClosed: false },
   { day: 'Jeudi', open: '08:00–12:00, 16:00–20:00', isClosed: false },

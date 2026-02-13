@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
-import { Clock, Package, CheckCircle, XCircle, ShoppingBag, ChevronDown, ChevronUp, Heart } from 'lucide-react';
+import { Clock, Package, CheckCircle, XCircle, ShoppingBag, ChevronDown, ChevronUp, Heart, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface OrderItem {
@@ -108,6 +108,27 @@ const OrderHistoryPage: React.FC = () => {
     setExpandedOrder(expandedOrder === orderId ? null : orderId);
   };
 
+  const deleteOrder = async (e: React.MouseEvent, orderId: number) => {
+    e.stopPropagation();
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette commande de votre historique ?')) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', orderId);
+
+      if (error) throw error;
+
+      setOrders(orders.filter(order => order.id !== orderId));
+    } catch (error) {
+      console.error('Error deleting order:', error);
+      alert('Une erreur est survenue lors de la suppression de la commande.');
+    }
+  };
+
   const toggleFavorite = async (e: React.MouseEvent, order: Order) => {
     e.stopPropagation();
     try {
@@ -206,6 +227,13 @@ const OrderHistoryPage: React.FC = () => {
                     </div>
 
                     <div className="flex items-center space-x-6">
+                      <button 
+                        onClick={(e) => deleteOrder(e, order.id)}
+                        className="p-2 rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors"
+                        title="Supprimer la commande"
+                      >
+                        <Trash2 size={20} />
+                      </button>
                       <button 
                         onClick={(e) => toggleFavorite(e, order)}
                         className={`p-2 rounded-full transition-colors ${order.is_favorite ? 'text-red-500 bg-red-50' : 'text-gray-300 hover:text-gray-400'}`}

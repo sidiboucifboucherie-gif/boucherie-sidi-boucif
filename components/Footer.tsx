@@ -11,10 +11,10 @@ const Footer: React.FC = () => {
           {/* Brand & Socials */}
           <div>
             <div className="mb-6">
-                <img src="/logo.png" alt="Boucherie Sidi Boucif" className="h-16 w-auto" />
+                <img src="/logo.png" alt="Boucherie Sidi Boucif" className="h-16 w-16 rounded-full border-2 border-gold-500" />
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed text-sm">
-              Boucherie artisanale de référence à Béziers depuis 2015. 
+              Boucherie artisanale de référence à Béziers depuis 1980. 
               Nous nous engageons à vous offrir le meilleur de la viande Halal et Française (Label Rouge, VBF).
             </p>
           </div>

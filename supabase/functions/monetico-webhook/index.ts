@@ -81,29 +81,43 @@ serve(async (req) => {
     } = data;
 
     // 1. Verify Signature
-    const SECRET_KEY = Deno.env.get('MONETICO_SECRET_KEY');
+    let SECRET_KEY = Deno.env.get('MONETICO_SECRET_KEY');
     if (!SECRET_KEY) {
       console.error('Missing MONETICO_SECRET_KEY');
       return new Response("version=2\ncdr=1\n", { headers: { 'Content-Type': 'text/plain' } });
     }
 
+    // Clean key: remove "VERSION 1" prefix, spaces, newlines if present
+    SECRET_KEY = SECRET_KEY
+      .replace(/VERSION \d+ /i, '')
+      .replace(/HMAC-SHA1/i, '')
+      .replace(/\s/g, '');
+
     const usableKey = getUsableKey(SECRET_KEY);
     
-    // Construct the string to hash (Order is critical!)
-    // TPE*date*montant*reference*texte-libre*version*code-retour*cvx*vld*brand*status3ds*numauto*motifrefus*originecb*bincb*hpancb*ipclient*originetr*veres*pares*
-    const fields = [
-      TPE, date, montant, reference, texteLibre, version, codeRetour, 
-      cvx, vld, brand, status3ds, numauto, motifrefus, originecb, 
-      bincb, hpancb, ipclient, originetr, veres, pares
-    ];
-    
-    // Handle undefined/null by replacing with empty string
-    const stringToHash = fields.map(f => f === undefined || f === null ? '' : f).join('*') + '*';
+    // Construct the string to hash (New Format: TPE First + Alphabetical)
+    // Filter out MAC field
+    const fieldsToSign: Record<string, string> = {};
+    for (const key in data) {
+        if (key !== 'MAC') {
+            fieldsToSign[key] = data[key];
+        }
+    }
+
+    // 1. TPE First
+    let stringToHash = `TPE=${fieldsToSign.TPE}`;
+
+    // 2. Others sorted alphabetically
+    const otherKeys = Object.keys(fieldsToSign).filter(k => k !== 'TPE').sort();
+
+    for (const key of otherKeys) {
+        stringToHash += `*${key}=${fieldsToSign[key]}`;
+    }
     
     const computedMac = await computeHmacSha1(hexToBytes(usableKey), stringToHash);
 
     if (computedMac.toLowerCase() !== MAC.toLowerCase()) {
-      console.error('MAC verification failed', { computedMac, receivedMac: MAC });
+      console.error('MAC verification failed', { computedMac, receivedMac: MAC, stringToHash });
       return new Response("version=2\ncdr=1\n", { headers: { 'Content-Type': 'text/plain' } });
     }
 

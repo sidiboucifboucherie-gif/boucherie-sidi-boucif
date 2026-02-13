@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { ShoppingBag, Eye, CheckCircle, Truck, XCircle, Clock, X, Edit2 } from 'lucide-react';
+import { ShoppingBag, Eye, CheckCircle, Truck, XCircle, Clock, X, Edit2, Trash2 } from 'lucide-react';
 
 interface Order {
   id: string;
@@ -117,6 +117,24 @@ const AdminOrders: React.FC = () => {
       fetchOrders(); // Refresh list
     }
     setUpdating(false);
+  };
+
+  const handleDeleteOrder = async (orderId: string) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette commande ? Cette action est irréversible.')) {
+      return;
+    }
+
+    const { error } = await supabase
+      .from('orders')
+      .delete()
+      .eq('id', orderId);
+
+    if (error) {
+      console.error('Error deleting order:', error);
+      alert('Erreur lors de la suppression de la commande');
+    } else {
+      setOrders(orders.filter(order => order.id !== orderId));
+    }
   };
 
   const getStatusBadge = (status: string) => {

@@ -19,9 +19,10 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
         <div className="max-w-2xl text-white pt-16">
-          <div className="flex items-center space-x-2 mb-4 animate-fade-in-up">
-            <span className="px-3 py-1 border border-gold-500 text-gold-500 text-xs font-bold tracking-widest uppercase rounded-sm">Depuis 2015</span>
-            <span className="px-3 py-1 bg-gold-500 text-burgundy-900 text-xs font-bold tracking-widest uppercase rounded-sm">Ouvert Dimanche</span>
+          <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 animate-fade-in-up">
+            <span className="text-gold-400 font-serif italic">Depuis 1980</span>
+            <span className="w-1 h-1 bg-gold-400 rounded-full"></span>
+            <span className="text-gray-200 text-sm tracking-wide uppercase">Artisan Boucher</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6 text-white drop-shadow-lg">

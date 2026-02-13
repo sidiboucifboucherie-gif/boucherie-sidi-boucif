@@ -45,9 +45,7 @@ const CheckoutPage: React.FC = () => {
   // Auto-submit form when monetico data is ready
   useEffect(() => {
     if (moneticoForm && formRef.current) {
-        // DEBUG: Disable auto-submit to allow inspection
-        console.log("DEBUG MONETICO FORM DATA:", moneticoForm);
-        // formRef.current.submit();
+        formRef.current.submit();
     }
   }, [moneticoForm]);
 
@@ -110,7 +108,8 @@ const CheckoutPage: React.FC = () => {
           orderId: order.id,
           amount: total.toFixed(2),
           email: formData.email,
-          origin: window.location.origin
+          origin: window.location.origin,
+          formData: formData // Add formData for billing address context
         }
       });
 
@@ -337,20 +336,6 @@ const CheckoutPage: React.FC = () => {
 
                   {/* Payment Method Selection */}
                   <div className="space-y-4">
-                    {/* DEBUG MSG */}
-                    {moneticoForm && (
-                        <div className="p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-                            <p className="font-bold">Mode DEBUG activé</p>
-                            <p>Le formulaire Monetico est prêt. Vérifiez la CONSOLE (F12) pour les détails de signature.</p>
-                            <button 
-                                onClick={() => formRef.current?.submit()}
-                                className="mt-2 px-4 py-2 bg-blue-600 text-white rounded font-bold hover:bg-blue-700"
-                            >
-                                CONTINUER VERS LE PAIEMENT (Après vérification)
-                            </button>
-                        </div>
-                    )}
-                    
                     <label className={`relative flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors ${paymentMethod === 'card' ? 'border-burgundy-500 bg-burgundy-50 ring-1 ring-burgundy-500' : 'border-gray-300 hover:bg-gray-50'}`}>
                       <div className="flex items-center">
                         <input
@@ -411,8 +396,15 @@ const CheckoutPage: React.FC = () => {
                     method="POST" 
                     className="hidden"
                   >
-                    {Object.entries(moneticoForm.fields).map(([key, value]) => (
-                      <input key={key} type="hidden" name={key} value={value as string} />
+                    {/* TPE must be first */}
+                    <input type="hidden" name="TPE" value={moneticoForm.fields.TPE} />
+                    
+                    {/* Other fields sorted alphabetically */}
+                    {Object.keys(moneticoForm.fields)
+                      .filter(key => key !== 'TPE')
+                      .sort()
+                      .map(key => (
+                        <input key={key} type="hidden" name={key} value={moneticoForm.fields[key] as string} />
                     ))}
                   </form>
                 )}

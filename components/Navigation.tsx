@@ -44,7 +44,7 @@ const Navigation: React.FC = () => {
         <div className="flex justify-between items-center">
           {/* Logo Area */}
           <Link to="/" className="flex items-center cursor-pointer">
-             <img src="/logo.png" alt="Sidi Boucif" className="h-12 w-auto mr-3" />
+             <img src="/logo.png" alt="Sidi Boucif" className="h-12 w-12 rounded-full mr-3 border-2 border-gold-500" />
              <div className="text-white">
                 <h1 className="font-serif text-xl md:text-2xl font-bold tracking-wide">SIDI BOUCIF</h1>
                 <p className="text-gold-400 text-xs uppercase tracking-widest hidden md:block">Artisan Boucher • Béziers</p>

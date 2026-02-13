@@ -30,7 +30,7 @@ const Story: React.FC = () => {
               L'Artisanat au service du <span className="text-burgundy-700">Goût</span>
             </h3>
             <p className="text-gray-600 mb-6 text-lg leading-relaxed">
-              Fondée en mars 2015 par <strong>Mohamed Sidi Boucif</strong>, notre boucherie est née d'une volonté simple : réconcilier l'exigence de la certification Halal avec l'excellence de la gastronomie française.
+              Fondée en 1980, la Boucherie Sidi Boucif est le fruit d'une passion familiale pour la viande de qualité. Située au cœur de Béziers, notre établissement perpétue un savoir-faire artisanal transmis de génération en génération.
             </p>
             <p className="text-gray-600 mb-8 text-lg leading-relaxed">
               Situés Avenue Gambetta à Béziers, nous sommes fiers de proposer une sélection rigoureuse : volailles fermières Label Rouge, bœuf VBF maturé, et une spécialité rare : la <strong>Triperie artisanale</strong> (cœur, foie, abats), découpée avec un savoir-faire traditionnel.
