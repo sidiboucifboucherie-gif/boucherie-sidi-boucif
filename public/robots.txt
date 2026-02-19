@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /orders
+Disallow: /checkout
+Disallow: /payment/
+
+Sitemap: https://www.boucherie-sidi-boucif.fr/sitemap.xml

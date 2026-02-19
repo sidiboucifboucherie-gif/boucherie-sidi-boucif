@@ -198,7 +198,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: true,
-        actionUrl: "https://p.monetico-services.com/test/paiement.cgi",
+        actionUrl: "https://p.monetico-services.com/paiement.cgi",
         debug: {
             stringToSign: dataToSign,
             mac: mac.toLowerCase(),

@@ -25,10 +25,8 @@ const Footer: React.FC = () => {
               <Clock className="mr-2 inline-block mb-1" size={20} /> Horaires
             </h4>
             <div className="space-y-2 text-sm text-gray-400">
-               <p>Ouvert du <span className="text-white font-medium">Mardi au Dimanche</span></p>
-               <p className="flex justify-between max-w-[200px]"><span>Matin:</span> <span className="text-white">08:00 - 12:00</span></p>
-               <p className="flex justify-between max-w-[200px]"><span>Après-midi:</span> <span className="text-white">16:00 - 20:00</span></p>
-               <p className="mt-4 pt-2 border-t border-gray-800 text-red-400">Fermé le Lundi</p>
+               <p className="text-white font-medium">Ouvert 7j/7</p>
+               <p className="flex justify-between max-w-[220px]"><span>Horaires:</span> <span className="text-white">08:00 - 20:00</span></p>
             </div>
           </div>
 

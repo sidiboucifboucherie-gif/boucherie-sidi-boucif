@@ -95,7 +95,7 @@ const ContactPage: React.FC = () => {
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-gray-900">Téléphone</h3>
                   <p className="mt-1 text-gray-600">04 67 28 27 88</p>
-                  <p className="text-sm text-gray-500 mt-1">Du mardi au dimanche, 8h - 19h</p>
+                  <p className="text-sm text-gray-500 mt-1">Tous les jours, 08:00 - 20:00</p>
                 </div>
               </div>
 
@@ -115,15 +115,15 @@ const ContactPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="font-bold text-burgundy-900">Lundi</p>
-                  <p className="text-gray-600">Fermé</p>
+                  <p className="text-gray-600">08:00 - 20:00</p>
                 </div>
                 <div>
                   <p className="font-bold text-burgundy-900">Mardi - Samedi</p>
-                  <p className="text-gray-600">08:00 - 13:00 / 15:00 - 19:30</p>
+                  <p className="text-gray-600">08:00 - 20:00</p>
                 </div>
                 <div>
                   <p className="font-bold text-burgundy-900">Dimanche</p>
-                  <p className="text-gray-600">08:00 - 13:00</p>
+                  <p className="text-gray-600">08:00 - 20:00</p>
                 </div>
               </div>
             </div>
