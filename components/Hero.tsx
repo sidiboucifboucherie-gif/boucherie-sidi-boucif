@@ -22,20 +22,20 @@ const Hero: React.FC = () => {
           <div className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 animate-fade-in-up">
             <span className="text-gold-400 font-serif italic">Depuis 1980</span>
             <span className="w-1 h-1 bg-gold-400 rounded-full"></span>
-            <span className="text-gray-200 text-sm tracking-wide uppercase">Artisan Boucher</span>
+            <span className="text-gray-200 text-sm tracking-wide uppercase">Boucherie Halal à Béziers</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6 text-white drop-shadow-lg">
-            L'Excellence <br/>
-            <span className="text-gold-500 italic">Halal & Française</span>
+            Boucherie Halal <br/>
+            <span className="text-gold-500 italic">à Béziers</span>
           </h1>
           
-          <p className="text-sm text-gray-400 italic mb-6 -mt-4">
-            (on importe aussi notre viande de l'Espagne)
+          <p className="text-lg md:text-xl text-gray-200 mb-4 font-light max-w-lg leading-relaxed">
+            Votre boucherie halal de quartier à Béziers : viandes fraîches, certifiées et préparées sur place par un artisan boucher passionné.
           </p>
-          
-          <p className="text-lg md:text-xl text-gray-200 mb-8 font-light max-w-lg leading-relaxed">
-            Une alliance unique entre la tradition bouchère artisanale et les meilleurs labels de la gastronomie française (Label Rouge, VBF).
+
+          <p className="text-sm text-gray-400 italic mb-8">
+            (on importe aussi notre viande de l'Espagne)
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">

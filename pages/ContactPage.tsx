@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, X } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import FAQSection from '../components/FAQSection';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -230,6 +231,33 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <FAQSection
+        title="Questions sur la boucherie"
+        subtitle="Besoin d'informations avant de nous contacter ?"
+        items={[
+          {
+            question: 'Comment passer commande en ligne dans votre boucherie halal à Béziers ?',
+            answer:
+              'Vous pouvez choisir vos produits directement sur la boutique en ligne, les ajouter au panier puis valider votre commande et le paiement sécurisé. Vous recevrez un récapitulatif par email.',
+          },
+          {
+            question: 'Puis-je modifier ou annuler une commande passée sur le site ?',
+            answer:
+              'Si votre commande n’a pas encore été préparée, contactez-nous le plus rapidement possible par téléphone pour voir si une modification ou une annulation est encore possible.',
+          },
+          {
+            question: 'Quels moyens de contact privilégier pour une commande spéciale ?',
+            answer:
+              'Pour une commande importante ou une demande spécifique (mariage, barbecue, événement), le plus simple est de nous appeler directement ou d’utiliser le formulaire de contact en précisant la date et le nombre de personnes.',
+          },
+          {
+            question: 'Puis-je poser des questions sur la préparation ou la cuisson de la viande ?',
+            answer:
+              'Oui, n’hésitez pas à nous appeler ou à nous écrire. En tant qu’artisan boucher, nous sommes là pour vous conseiller sur les morceaux, les quantités et la cuisson idéale.',
+          },
+        ]}
+      />
     </div>
   );
 };

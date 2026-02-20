@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Clock, ChefHat, Truck, MapPin, ShoppingCart } from 'lucide-react';
 import Hero from '../components/Hero';
+import FAQSection from '../components/FAQSection';
 import { RECIPES } from '../constants';
 import { useCart } from '../context/CartContext';
 import { supabase } from '../lib/supabaseClient';
@@ -145,6 +146,33 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      <FAQSection
+        title="Questions fréquentes"
+        subtitle="Tout savoir sur votre boucherie halal à Béziers"
+        items={[
+          {
+            question: 'Votre boucherie est-elle entièrement halal ?',
+            answer:
+              "Oui, Boucherie Sidi Boucif est une boucherie halal à Béziers. Toutes nos viandes sont sélectionnées auprès d'abattoirs certifiés halal et préparées dans le respect des règles religieuses.",
+          },
+          {
+            question: 'Où se trouve exactement la boucherie à Béziers ?',
+            answer:
+              'Nous sommes situés au 5 Avenue Gambetta, 34500 Béziers, à quelques minutes du centre-ville. Vous pouvez facilement nous trouver sur Google Maps en tapant "Boucherie Sidi Boucif Béziers".',
+          },
+          {
+            question: 'Proposez-vous la livraison à domicile sur Béziers ?',
+            answer:
+              "Oui, nous livrons sur Béziers et les communes voisines. La livraison est offerte à partir de 50€ d'achat. Vous pouvez commander directement en ligne depuis la boutique.",
+          },
+          {
+            question: "Quels sont vos horaires d'ouverture ?",
+            answer:
+              "La boucherie est ouverte 7j/7, de 08h00 à 20h00. Vous pouvez passer commande en ligne à tout moment, et récupérer vos produits en magasin ou en livraison pendant ces horaires.",
+          },
+        ]}
+      />
 
       {/* Delivery CTA Section */}
       <section className="py-20 bg-burgundy-900 text-white relative overflow-hidden">
