@@ -116,11 +116,27 @@ const Navigation: React.FC = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-             <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white p-2">
-                {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-             </button>
+          {/* Mobile Cart + Menu Buttons */}
+          <div className="md:hidden flex items-center space-x-2">
+            <button
+              onClick={toggleCart}
+              className="relative text-white p-2"
+              aria-label="Ouvrir le panier"
+            >
+              <ShoppingBag size={22} />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-gold-500 text-burgundy-900 text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white p-2"
+              aria-label="Ouvrir le menu"
+            >
+              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
           </div>
         </div>
       </div>
@@ -141,6 +157,24 @@ const Navigation: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+            
+            <button
+              onClick={() => {
+                toggleCart();
+                setIsMobileMenuOpen(false);
+              }}
+              className="mt-2 w-full flex items-center justify-between px-3 py-3 text-base font-medium rounded-md bg-gold-500 text-burgundy-900 hover:bg-gold-600"
+            >
+              <span className="flex items-center">
+                <ShoppingBag size={18} className="mr-2" />
+                Panier
+              </span>
+              {totalItems > 0 && (
+                <span className="ml-2 bg-burgundy-900 text-gold-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
             
             {/* Mobile Auth Link */}
             {user && (
