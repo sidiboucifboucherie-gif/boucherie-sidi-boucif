@@ -36,6 +36,8 @@ const AdminProducts: React.FC = () => {
     badges: ''
   });
 
+  const [isDragging, setIsDragging] = useState(false);
+
   useEffect(() => {
     fetchProducts();
     fetchCategories();
@@ -63,10 +65,7 @@ const AdminProducts: React.FC = () => {
     setLoading(false);
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
-    
-    const file = e.target.files[0];
+  const uploadFile = async (file: File) => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random()}.${fileExt}`;
     const filePath = `${fileName}`;
@@ -90,6 +89,30 @@ const AdminProducts: React.FC = () => {
       console.error(error);
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    await uploadFile(e.target.files[0]);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      await uploadFile(e.dataTransfer.files[0]);
     }
   };
 
@@ -345,46 +368,69 @@ const AdminProducts: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Image</label>
-                      <div className="mt-1 flex items-center space-x-4">
-                        <div className="flex-1">
-                          <input 
-                            type="text" 
-                            placeholder="URL de l'image (optionnel)"
-                            className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-burgundy-500 focus:border-burgundy-500 sm:text-sm"
-                            value={formData.image_url}
-                            onChange={(e) => setFormData({...formData, image_url: e.target.value})}
-                          />
-                        </div>
-                        <div className="relative">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            id="image-upload"
-                            onChange={handleImageUpload}
-                            disabled={uploading}
-                          />
-                          <label
-                            htmlFor="image-upload"
-                            className={`cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-burgundy-500 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                          >
-                            {uploading ? (
-                              'Upload...'
-                            ) : (
-                              <>
-                                <Upload size={16} className="mr-2" />
-                                Choisir un fichier
-                              </>
-                            )}
-                          </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                      
+                      {/* Drag and Drop Zone */}
+                      <div 
+                        className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md transition-colors ${
+                          isDragging 
+                            ? 'border-burgundy-500 bg-burgundy-50' 
+                            : 'border-gray-300 hover:border-gray-400'
+                        }`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                      >
+                        <div className="space-y-1 text-center">
+                          {formData.image_url ? (
+                            <div className="relative inline-block">
+                              <img src={formData.image_url} alt="Aperçu" className="mx-auto h-32 object-cover rounded-md" />
+                              <button
+                                type="button"
+                                onClick={() => setFormData(prev => ({ ...prev, image_url: '' }))}
+                                className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200 shadow-sm"
+                                title="Supprimer l'image"
+                              >
+                                <X size={16} />
+                              </button>
+                            </div>
+                          ) : (
+                            <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
+                          )}
+                          
+                          <div className="flex text-sm text-gray-600 justify-center">
+                            <label
+                              htmlFor="image-upload"
+                              className="relative cursor-pointer bg-white rounded-md font-medium text-burgundy-600 hover:text-burgundy-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-burgundy-500"
+                            >
+                              <span>{formData.image_url ? 'Remplacer l\'image' : 'Télécharger un fichier'}</span>
+                              <input
+                                id="image-upload"
+                                name="image-upload"
+                                type="file"
+                                className="sr-only"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                disabled={uploading}
+                              />
+                            </label>
+                            <p className="pl-1">ou glisser-déposer</p>
+                          </div>
+                          <p className="text-xs text-gray-500">PNG, JPG, GIF jusqu'à 5MB</p>
                         </div>
                       </div>
-                      {formData.image_url && (
-                        <div className="mt-2">
-                          <img src={formData.image_url} alt="Aperçu" className="h-20 w-20 object-cover rounded-md border border-gray-200" />
-                        </div>
-                      )}
+
+                      {/* URL Input Fallback */}
+                      <div className="mt-3">
+                        <label className="block text-xs font-medium text-gray-500 mb-1">Ou via URL externe</label>
+                        <input 
+                          type="text" 
+                          placeholder="https://exemple.com/image.jpg"
+                          className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-burgundy-500 focus:border-burgundy-500 sm:text-sm"
+                          value={formData.image_url || ''}
+                          onChange={(e) => setFormData({...formData, image_url: e.target.value})}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
