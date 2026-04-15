@@ -1,12 +1,13 @@
 import React from 'react';
 import { Phone, MapPin, Clock, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { blogPosts } from '../data/seoContent';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white pt-12 border-t border-burgundy-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           
           {/* Brand & Socials */}
           <div>
@@ -46,6 +47,20 @@ const Footer: React.FC = () => {
                 <Mail className="mr-3 text-gold-500 flex-shrink-0" size={18} />
                 <span>contact@sidiboucif.fr</span>
               </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-gold-500 font-bold mb-4 text-lg uppercase tracking-wider">Blog & Guides</h4>
+            <div className="space-y-3 text-sm">
+              <Link to="/blog" className="block text-white hover:text-gold-500 transition-colors">
+                Tous les articles
+              </Link>
+              {blogPosts.map((post) => (
+                <Link key={post.path} to={post.path} className="block text-gray-400 hover:text-white transition-colors leading-relaxed">
+                  {post.title}
+                </Link>
+              ))}
             </div>
           </div>
 

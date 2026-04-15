@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, MapPin, ShoppingBag, User as UserIcon, LogOut } from 'lucide-react';
+import { Menu, X, Phone, MapPin, ShoppingBag, User as UserIcon, LogOut, ChevronDown } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { blogPosts } from '../data/seoContent';
 
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isBlogMenuOpen, setIsBlogMenuOpen] = useState(false);
+  const [isMobileBlogMenuOpen, setIsMobileBlogMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { toggleCart, totalItems } = useCart();
@@ -19,6 +22,12 @@ const Navigation: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setIsBlogMenuOpen(false);
+    setIsMobileBlogMenuOpen(false);
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const navItems = [
     { label: 'Accueil', path: '/' },
@@ -64,6 +73,46 @@ const Navigation: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+
+            <div className="relative">
+              <button
+                onClick={() => setIsBlogMenuOpen((open) => !open)}
+                className={`text-sm font-medium tracking-wider transition-colors duration-200 flex items-center ${
+                  location.pathname.startsWith('/blog') ? 'text-gold-500 border-b-2 border-gold-500' : 'text-white hover:text-gold-400'
+                }`}
+                aria-expanded={isBlogMenuOpen}
+                aria-haspopup="true"
+              >
+                <span>Blog</span>
+                <ChevronDown size={16} className={`ml-2 transition-transform ${isBlogMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isBlogMenuOpen && (
+                <div className="absolute top-full left-0 mt-4 w-96 bg-white text-dark-900 rounded-sm shadow-2xl border border-stone-200 overflow-hidden">
+                  <div className="p-4 bg-stone-50 border-b border-stone-200">
+                    <Link
+                      to="/blog"
+                      className="block font-bold text-burgundy-900 hover:text-gold-600 transition-colors"
+                    >
+                      Tous les articles du blog
+                    </Link>
+                    <p className="text-sm text-gray-600 mt-1">Acces direct au hub blog et a chaque page conseil.</p>
+                  </div>
+                  <div className="py-2">
+                    {blogPosts.map((post) => (
+                      <Link
+                        key={post.path}
+                        to={post.path}
+                        className="block px-4 py-3 hover:bg-stone-50 transition-colors"
+                      >
+                        <p className="font-semibold text-dark-900">{post.title}</p>
+                        <p className="text-sm text-gray-600 mt-1">{post.excerpt}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             
             {/* Cart Button */}
             <button 
@@ -149,7 +198,6 @@ const Navigation: React.FC = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                onClick={() => setIsMobileMenuOpen(false)}
                 className={`block w-full text-left px-3 py-3 text-base font-medium rounded-md ${
                   isActive(item.path) ? 'bg-burgundy-900 text-gold-500' : 'text-white hover:bg-burgundy-700'
                 }`}
@@ -157,6 +205,38 @@ const Navigation: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+
+            <div className="pt-1">
+              <button
+                onClick={() => setIsMobileBlogMenuOpen((open) => !open)}
+                className={`w-full flex items-center justify-between px-3 py-3 text-base font-medium rounded-md ${
+                  location.pathname.startsWith('/blog') ? 'bg-burgundy-900 text-gold-500' : 'text-white hover:bg-burgundy-700'
+                }`}
+              >
+                <span>Blog</span>
+                <ChevronDown size={18} className={`transition-transform ${isMobileBlogMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isMobileBlogMenuOpen && (
+                <div className="mt-2 ml-3 border-l border-burgundy-600 pl-3 space-y-2">
+                  <Link
+                    to="/blog"
+                    className="block px-3 py-2 rounded-md text-sm font-semibold text-gold-400 hover:bg-burgundy-700"
+                  >
+                    Tous les articles
+                  </Link>
+                  {blogPosts.map((post) => (
+                    <Link
+                      key={post.path}
+                      to={post.path}
+                      className="block px-3 py-2 rounded-md text-sm text-white hover:bg-burgundy-700"
+                    >
+                      {post.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             
             <button
               onClick={() => {
